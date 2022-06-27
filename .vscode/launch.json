@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "args": ["14","1"],
+            "args": ["-day","1","-part","1","-input-file","1.txt"],
         }
     ]
 }
