@@ -1,24 +1,15 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent101(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent101(input []string) []string {
+	output := []string{}
 	var sumErrorScore int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		stack := ""
 		corrupted := false
 		for i := 0; i < len(line); i++ {
@@ -28,7 +19,7 @@ func advent101(filename string) {
 					if stack == "" || stack[len(stack)-1] != '(' {
 						sumErrorScore = sumErrorScore + 3
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -39,7 +30,7 @@ func advent101(filename string) {
 					if stack == "" || stack[len(stack)-1] != '[' {
 						sumErrorScore = sumErrorScore + 57
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -50,7 +41,7 @@ func advent101(filename string) {
 					if stack == "" || stack[len(stack)-1] != '{' {
 						sumErrorScore = sumErrorScore + 1197
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -61,7 +52,7 @@ func advent101(filename string) {
 					if stack == "" || stack[len(stack)-1] != '<' {
 						sumErrorScore = sumErrorScore + 25137
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -90,24 +81,17 @@ func advent101(filename string) {
 		}
 	}
 
-	fd.Close()
+	output = append(output, fmt.Sprintln("Syntax Error Score is", sumErrorScore))
 
-	fmt.Println("Syntax Error Score is", sumErrorScore)
+	return output
 }
 
-func advent102(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent102(input []string) []string {
+	output := []string{}
 	var scores []int
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		stack := ""
 		corrupted := false
 		for i := 0; i < len(line); i++ {
@@ -116,7 +100,7 @@ func advent102(filename string) {
 				{
 					if stack == "" || stack[len(stack)-1] != '(' {
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -126,7 +110,7 @@ func advent102(filename string) {
 				{
 					if stack == "" || stack[len(stack)-1] != '[' {
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -136,7 +120,7 @@ func advent102(filename string) {
 				{
 					if stack == "" || stack[len(stack)-1] != '{' {
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -146,7 +130,7 @@ func advent102(filename string) {
 				{
 					if stack == "" || stack[len(stack)-1] != '<' {
 						corrupted = true
-						fmt.Println("Corrupted Line", line[:i+1])
+						output = append(output, fmt.Sprintln("Corrupted Line", line[:i+1]))
 						break
 					} else {
 						stack = stack[:len(stack)-1]
@@ -196,7 +180,7 @@ func advent102(filename string) {
 					}
 				}
 			}
-			fmt.Println("Incomplete Line", stack, "with a score of", score)
+			output = append(output, fmt.Sprintln("Incomplete Line", stack, "with a score of", score))
 			if len(scores) == 0 || score > scores[len(scores)-1] {
 				scores = append(scores, score)
 			} else {
@@ -211,9 +195,9 @@ func advent102(filename string) {
 		}
 	}
 
-	fd.Close()
-
-	fmt.Println("Scores in order", scores)
+	output = append(output, fmt.Sprintln("Scores in order", scores))
 	middleScore := scores[len(scores)/2]
-	fmt.Println("Auto Complete Middle Score is", middleScore)
+	output = append(output, fmt.Sprintln("Auto Complete Middle Score is", middleScore))
+
+	return output
 }

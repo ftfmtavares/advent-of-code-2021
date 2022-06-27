@@ -1,16 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 )
 
-func advent181(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent181(input []string) []string {
+	output := []string{}
 	const maxNestedPairs = 4
 	const splitValue = 10
 	var magnitude int
@@ -257,8 +253,8 @@ func advent181(filename string) {
 		res2 := -1
 		res3 := 0
 		if splitNumber == -1 && explodeNumber == -1 {
-			res1, res2, splitNumber = explodePair(p, 1)
-			fmt.Println(printPair(*p))
+			res1, res2, _ = explodePair(p, 1)
+			output = append(output, fmt.Sprintln(printPair(*p)))
 			if res1 == -1 && res2 == -1 {
 				return -1
 			} else {
@@ -266,7 +262,7 @@ func advent181(filename string) {
 			}
 		} else if splitNumber > 0 {
 			res3, explodeNumber = splitNumbers(p, 1)
-			fmt.Println(printPair(*p))
+			output = append(output, fmt.Sprintln(printPair(*p)))
 			for explodeNumber > 0 {
 				reducePair(p, -1, explodeNumber)
 				explodeNumber--
@@ -274,7 +270,7 @@ func advent181(filename string) {
 			return res3
 		} else if explodeNumber > 0 {
 			res1, res2, splitNumber = explodePair(p, 1)
-			fmt.Println(printPair(*p))
+			output = append(output, fmt.Sprintln(printPair(*p)))
 			for splitNumber > 0 {
 				reducePair(p, splitNumber, -1)
 				splitNumber--
@@ -303,20 +299,16 @@ func advent181(filename string) {
 		return result
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	stringElement1, stringElement2 := getBracketContent(scanner.Text())
+	stringElement1, stringElement2 := getBracketContent(input[0])
 	tempResult := readPair(stringElement1, stringElement2)
 	result := &tempResult
-	fmt.Println(scanner.Text())
-	fmt.Println(printPair(*result))
-	for scanner.Scan() {
-		stringElement1, stringElement2 := getBracketContent(scanner.Text())
+	output = append(output, fmt.Sprintln(input[0]))
+	output = append(output, fmt.Sprintln(printPair(*result)))
+	for ind := 1; ind < len(input); ind++ {
+		stringElement1, stringElement2 := getBracketContent(input[ind])
 		addingPair := readPair(stringElement1, stringElement2)
-		fmt.Println(scanner.Text())
-		fmt.Println(printPair(addingPair))
+		output = append(output, fmt.Sprintln(input[ind]))
+		output = append(output, fmt.Sprintln(printPair(addingPair)))
 
 		newResultPair := pair{
 			value1: -1,
@@ -327,7 +319,7 @@ func advent181(filename string) {
 		newResultPair.pair1 = result
 		newResultPair.pair2 = &addingPair
 		result = &newResultPair
-		fmt.Println(printPair(*result))
+		output = append(output, fmt.Sprintln(printPair(*result)))
 
 		res := 0
 		for res == 0 {
@@ -337,18 +329,17 @@ func advent181(filename string) {
 		for res == 0 {
 			res = reducePair(result, 1, -1)
 		}
-		fmt.Println("End of Addition ", printPair(*result))
+		output = append(output, fmt.Sprintln("End of Addition ", printPair(*result)))
 	}
-	fd.Close()
 
 	magnitude = getMagnitude(result)
-	fmt.Println("Magnitude is ", magnitude)
+	output = append(output, fmt.Sprintln("Magnitude is ", magnitude))
+
+	return output
 }
 
-func advent182(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent182(input []string) []string {
+	output := []string{}
 	const maxNestedPairs = 4
 	const splitValue = 10
 	var maxMagnitude int
@@ -595,8 +586,8 @@ func advent182(filename string) {
 		res2 := -1
 		res3 := 0
 		if splitNumber == -1 && explodeNumber == -1 {
-			res1, res2, splitNumber = explodePair(p, 1)
-			fmt.Println(printPair(*p))
+			res1, res2, _ = explodePair(p, 1)
+			output = append(output, fmt.Sprintln(printPair(*p)))
 			if res1 == -1 && res2 == -1 {
 				return -1
 			} else {
@@ -604,7 +595,7 @@ func advent182(filename string) {
 			}
 		} else if splitNumber > 0 {
 			res3, explodeNumber = splitNumbers(p, 1)
-			fmt.Println(printPair(*p))
+			output = append(output, fmt.Sprintln(printPair(*p)))
 			for explodeNumber > 0 {
 				reducePair(p, -1, explodeNumber)
 				explodeNumber--
@@ -612,7 +603,7 @@ func advent182(filename string) {
 			return res3
 		} else if explodeNumber > 0 {
 			res1, res2, splitNumber = explodePair(p, 1)
-			fmt.Println(printPair(*p))
+			output = append(output, fmt.Sprintln(printPair(*p)))
 			for splitNumber > 0 {
 				reducePair(p, splitNumber, -1)
 				splitNumber--
@@ -641,15 +632,8 @@ func advent182(filename string) {
 		return result
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
 	numbers := []string{}
-	for scanner.Scan() {
-		numbers = append(numbers, scanner.Text())
-	}
-	fd.Close()
+	numbers = append(numbers, input...)
 
 	maxMagnitude = 0
 	for i, num1 := range numbers {
@@ -658,13 +642,13 @@ func advent182(filename string) {
 				stringElement1, stringElement2 := getBracketContent(num1)
 				tempResult := readPair(stringElement1, stringElement2)
 				result := &tempResult
-				fmt.Println(scanner.Text())
-				fmt.Println(printPair(*result))
+				output = append(output, fmt.Sprintln(input[len(input)-1]))
+				output = append(output, fmt.Sprintln(printPair(*result)))
 
 				stringElement1, stringElement2 = getBracketContent(num2)
 				addingPair := readPair(stringElement1, stringElement2)
-				fmt.Println(scanner.Text())
-				fmt.Println(printPair(addingPair))
+				output = append(output, fmt.Sprintln(input[len(input)-1]))
+				output = append(output, fmt.Sprintln(printPair(addingPair)))
 
 				newResultPair := pair{
 					value1: -1,
@@ -675,7 +659,7 @@ func advent182(filename string) {
 				newResultPair.pair1 = result
 				newResultPair.pair2 = &addingPair
 				result = &newResultPair
-				fmt.Println(printPair(*result))
+				output = append(output, fmt.Sprintln(printPair(*result)))
 
 				res := 0
 				for res == 0 {
@@ -685,11 +669,13 @@ func advent182(filename string) {
 				for res == 0 {
 					res = reducePair(result, 1, -1)
 				}
-				fmt.Println("End of Addition ", printPair(*result))
+				output = append(output, fmt.Sprintln("End of Addition ", printPair(*result)))
 
 				maxMagnitude = max(getMagnitude(result), maxMagnitude)
 			}
 		}
 	}
-	fmt.Println("Maximum Magnitude is ", maxMagnitude)
+	output = append(output, fmt.Sprintln("Maximum Magnitude is ", maxMagnitude))
+
+	return output
 }

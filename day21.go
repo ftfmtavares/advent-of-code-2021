@@ -1,34 +1,24 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent211(filename string) {
-	var fd *os.File
+func advent211(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
-	line := scanner.Text()
+	line := input[0]
 	line = strings.Replace(line, "Player 1 starting position: ", "", -1)
 	pos1, err := strconv.Atoi(line)
 	check(err)
-	scanner.Scan()
-	line = scanner.Text()
+
+	line = input[1]
 	line = strings.Replace(line, "Player 2 starting position: ", "", -1)
 	pos2, err := strconv.Atoi(line)
 	check(err)
-
-	fd.Close()
 
 	playerScore1 := 0
 	playerScore2 := 0
@@ -37,7 +27,7 @@ func advent211(filename string) {
 	for playerScore1 < 1000 && playerScore2 < 1000 {
 		for i := 0; i < 3; i++ {
 			pos1 = pos1 + die
-			fmt.Println("Player 1 moves", die, "steps")
+			output = append(output, fmt.Sprintln("Player 1 moves", die, "steps"))
 			if die == 100 {
 				die = 1
 			} else {
@@ -47,13 +37,13 @@ func advent211(filename string) {
 		}
 		pos1 = (pos1-1)%10 + 1
 		playerScore1 = playerScore1 + pos1
-		fmt.Println("Player 1 score increases to", playerScore1, "after stoping on step", pos1)
+		output = append(output, fmt.Sprintln("Player 1 score increases to", playerScore1, "after stoping on step", pos1))
 		if playerScore1 >= 1000 {
 			break
 		}
 		for i := 0; i < 3; i++ {
 			pos2 = pos2 + die
-			fmt.Println("Player 2 moves", die, "steps")
+			output = append(output, fmt.Sprintln("Player 2 moves", die, "steps"))
 			if die == 100 {
 				die = 1
 			} else {
@@ -63,22 +53,22 @@ func advent211(filename string) {
 		}
 		pos2 = (pos2-1)%10 + 1
 		playerScore2 = playerScore2 + pos2
-		fmt.Println("Player 2 score increases to", playerScore2, "after stoping on step", pos2)
+		output = append(output, fmt.Sprintln("Player 2 score increases to", playerScore2, "after stoping on step", pos2))
 	}
 
-	fmt.Println("We have a winner with scores as player 1=", playerScore1, " and player 2=", playerScore2)
-	fmt.Println("Die was rolled", rollsCount, "times")
-	fmt.Println("Result is", min(playerScore1, playerScore2)*rollsCount)
+	output = append(output, fmt.Sprintln("We have a winner with scores as player 1=", playerScore1, " and player 2=", playerScore2))
+	output = append(output, fmt.Sprintln("Die was rolled", rollsCount, "times"))
+	output = append(output, fmt.Sprintln("Result is", min(playerScore1, playerScore2)*rollsCount))
+
+	return output
 }
 
-func advent212(filename string) {
-	var fd *os.File
+func advent212(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
-
+	output := []string{}
 	var playGame func(pos1, pos2, score1, score2, turn int) (int, int)
 	playGame = func(pos1, pos2, score1, score2, turn int) (int, int) {
-		//		fmt.Println("New universe with player 1 on", pos1, "and", score1, "points and player 2 on", pos2, "and", score2, "points")
+		//		output = append(output, fmt.Sprintln("New universe with player 1 on", pos1, "and", score1, "points and player 2 on", pos2, "and", score2, "points"))
 		wins1 := 0
 		wins2 := 0
 		newPos1 := pos1
@@ -245,25 +235,19 @@ func advent212(filename string) {
 		return wins1, wins2
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
-	line := scanner.Text()
+	line := input[0]
 	line = strings.Replace(line, "Player 1 starting position: ", "", -1)
 	pos1, err := strconv.Atoi(line)
 	check(err)
-	scanner.Scan()
-	line = scanner.Text()
+	line = input[1]
 	line = strings.Replace(line, "Player 2 starting position: ", "", -1)
 	pos2, err := strconv.Atoi(line)
 	check(err)
 
-	fd.Close()
-
 	wins1, wins2 := playGame(pos1, pos2, 0, 0, 1)
 
-	fmt.Println("Player 1 wins at", wins1, "universes")
-	fmt.Println("Player 2 wins at", wins2, "universes")
+	output = append(output, fmt.Sprintln("Player 1 wins at", wins1, "universes"))
+	output = append(output, fmt.Sprintln("Player 2 wins at", wins2, "universes"))
+
+	return output
 }

@@ -1,33 +1,22 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent111(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent111(input []string) []string {
+	output := []string{}
 	var totalFlashes int = 0
 	const steps int = 100
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	lines := [][]int{}
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		lines = append(lines, []int{})
 		for i := 0; i < len(line); i++ {
 			lines[len(lines)-1] = append(lines[len(lines)-1], int(line[i]-'0'))
 		}
 	}
-
-	fd.Close()
 
 	for step := 0; step < steps; step++ {
 		for i := 0; i < len(lines); i++ {
@@ -84,31 +73,24 @@ func advent111(filename string) {
 		}
 	}
 
-	fmt.Println("Total number of Flashes is", totalFlashes)
+	output = append(output, fmt.Sprintln("Total number of Flashes is", totalFlashes))
+
+	return output
 }
 
-func advent112(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent112(input []string) []string {
+	output := []string{}
 	var totalFlashes int = 0
 	var step int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	lines := [][]int{}
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		lines = append(lines, []int{})
 		for i := 0; i < len(line); i++ {
 			lines[len(lines)-1] = append(lines[len(lines)-1], int(line[i]-'0'))
 		}
 	}
-
-	fd.Close()
 
 	for totalFlashes < 100 {
 		totalFlashes = 0
@@ -167,5 +149,7 @@ func advent112(filename string) {
 		}
 	}
 
-	fmt.Println("All octuposes flash at the same time on step", step)
+	output = append(output, fmt.Sprintln("All octuposes flash at the same time on step", step))
+
+	return output
 }

@@ -1,25 +1,16 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strings"
 )
 
-func advent081(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent081(input []string) []string {
+	output := []string{}
 	var knownDigits int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		lineParts := strings.Split(scanner.Text(), "|")
+	for _, inputLine := range input {
+		lineParts := strings.Split(inputLine, "|")
 		output := strings.Split(lineParts[1], " ")
 		for _, s := range output {
 			if len(s) == 2 || len(s) == 3 || len(s) == 4 || len(s) == 7 {
@@ -27,24 +18,18 @@ func advent081(filename string) {
 			}
 		}
 	}
-	fd.Close()
 
-	fmt.Println("Number of easy digits is", knownDigits)
+	output = append(output, fmt.Sprintln("Number of easy digits is", knownDigits))
+
+	return output
 }
 
-func advent082(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent082(input []string) []string {
+	output := []string{}
 	var outputSum int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		lineParts := strings.Split(scanner.Text(), "|")
+	for _, inputLine := range input {
+		lineParts := strings.Split(inputLine, "|")
 		patterns := strings.Split(strings.Trim(lineParts[0], " "), " ")
 		digits2 := ""
 		digits3 := ""
@@ -67,7 +52,7 @@ func advent082(filename string) {
 				digits7 = s
 			}
 		}
-		fmt.Println(digits2, digits3, digits4, digits5, digits6, digits7)
+		output = append(output, fmt.Sprintln(digits2, digits3, digits4, digits5, digits6, digits7))
 		links := [7]string{"", "", "", "", "", "", ""}
 
 		var digits string
@@ -149,7 +134,7 @@ func advent082(filename string) {
 		digits = strings.ReplaceAll(digits, links[5], "")
 		links[2] = digits
 
-		fmt.Println(links)
+		output = append(output, fmt.Sprintln(links))
 
 		encodedDigits := strings.Split(strings.Trim(lineParts[1], " "), " ")
 		decodedDigits := []int{}
@@ -178,18 +163,18 @@ func advent082(filename string) {
 			}
 		}
 
-		output := 0
+		procOutput := 0
 		for i := 0; i < len(decodedDigits); i++ {
-			output = output * 10
-			output = output + decodedDigits[i]
+			procOutput = procOutput * 10
+			procOutput = procOutput + decodedDigits[i]
 		}
 
-		fmt.Println(encodedDigits, decodedDigits, output)
+		output = append(output, fmt.Sprintln(encodedDigits, decodedDigits, procOutput))
 
-		outputSum = outputSum + output
+		outputSum = outputSum + procOutput
 	}
 
-	fd.Close()
+	output = append(output, fmt.Sprintln("Sum of all output digits is", outputSum))
 
-	fmt.Println("Sum of all output digits is", outputSum)
+	return output
 }

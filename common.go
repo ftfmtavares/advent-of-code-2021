@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 func check(e error) {
 	if e != nil {
@@ -28,4 +32,18 @@ func absolute(a int) int {
 		a = -1 * a
 	}
 	return a
+}
+
+func readTextFile(filename string) []string {
+	fd, err := os.Open(filename)
+	check(err)
+	defer fd.Close()
+
+	scanner := bufio.NewScanner(fd)
+	textContent := []string{}
+	for scanner.Scan() {
+		textContent = append(textContent, scanner.Text())
+	}
+
+	return textContent
 }

@@ -53,155 +53,162 @@ func main() {
 			fmt.Println("")
 		}
 
+		input := readTextFile(*filename)
+		output := []string{}
+
 		switch *day {
 		case 1:
 			if *part == 1 {
-				advent011(*filename)
+				output = advent011(input)
 			} else {
-				advent012(*filename)
+				output = advent012(input)
 			}
 		case 2:
 			if *part == 1 {
-				advent021(*filename)
+				output = advent021(input)
 			} else {
-				advent022(*filename)
+				output = advent022(input)
 			}
 		case 3:
 			if *part == 1 {
-				advent031(*filename)
+				output = advent031(input)
 			} else {
-				advent032(*filename)
+				output = advent032(input)
 			}
 		case 4:
 			if *part == 1 {
-				advent041(*filename)
+				output = advent041(input)
 			} else {
-				advent042(*filename)
+				output = advent042(input)
 			}
 		case 5:
 			if *part == 1 {
-				advent051(*filename)
+				output = advent051(input)
 			} else {
-				advent052(*filename)
+				output = advent052(input)
 			}
 		case 6:
 			if *part == 1 {
-				advent061(*filename)
+				output = advent061(input)
 			} else {
-				advent062(*filename)
+				output = advent062(input)
 			}
 		case 7:
 			if *part == 1 {
-				advent071(*filename)
+				output = advent071(input)
 			} else {
-				advent072(*filename)
+				output = advent072(input)
 			}
 		case 8:
 			if *part == 1 {
-				advent081(*filename)
+				output = advent081(input)
 			} else {
-				advent082(*filename)
+				output = advent082(input)
 			}
 		case 9:
 			if *part == 1 {
-				advent091(*filename)
+				output = advent091(input)
 			} else {
-				advent092(*filename)
+				output = advent092(input)
 			}
 		case 10:
 			if *part == 1 {
-				advent101(*filename)
+				output = advent101(input)
 			} else {
-				advent102(*filename)
+				output = advent102(input)
 			}
 		case 11:
 			if *part == 1 {
-				advent111(*filename)
+				output = advent111(input)
 			} else {
-				advent112(*filename)
+				output = advent112(input)
 			}
 		case 12:
 			if *part == 1 {
-				advent121(*filename)
+				output = advent121(input)
 			} else {
-				advent122(*filename)
+				output = advent122(input)
 			}
 		case 13:
 			if *part == 1 {
-				advent131(*filename)
+				output = advent131(input)
 			} else {
-				advent132(*filename)
+				output = advent132(input)
 			}
 		case 14:
 			if *part == 1 {
-				advent141(*filename)
+				output = advent141(input)
 			} else {
-				advent142(*filename)
+				output = advent142(input)
 			}
 		case 15:
 			if *part == 1 {
-				advent151(*filename)
+				output = advent151(input)
 			} else {
-				advent152(*filename)
+				output = advent152(input)
 			}
 		case 16:
 			if *part == 1 {
-				advent161(*filename)
+				output = advent161(input)
 			} else {
-				advent162(*filename)
+				output = advent162(input)
 			}
 		case 17:
 			if *part == 1 {
-				advent171(*filename)
+				output = advent171(input)
 			} else {
-				advent172(*filename)
+				output = advent172(input)
 			}
 		case 18:
 			if *part == 1 {
-				advent181(*filename)
+				output = advent181(input)
 			} else {
-				advent182(*filename)
+				output = advent182(input)
 			}
 		case 19:
 			if *part == 1 {
-				advent191(*filename)
+				output = advent191(input)
 			} else {
-				advent192(*filename)
+				output = advent192(input)
 			}
 		case 20:
 			if *part == 1 {
-				advent201(*filename)
+				output = advent201(input)
 			} else {
-				advent202(*filename)
+				output = advent202(input)
 			}
 		case 21:
 			if *part == 1 {
-				advent211(*filename)
+				output = advent211(input)
 			} else {
-				advent212(*filename)
+				output = advent212(input)
 			}
 		case 22:
 			if *part == 1 {
-				advent221(*filename)
+				output = advent221(input)
 			} else {
-				advent222(*filename)
+				output = advent222(input)
 			}
 		case 23:
 			if *part == 1 {
-				advent231(*filename)
+				output = advent231(input)
 			} else {
-				advent232(*filename)
+				output = advent232(input)
 			}
 		case 24:
 			if *part == 1 {
-				advent241(*filename)
+				output = advent241(input)
 			} else {
-				advent242(*filename)
+				output = advent242(input)
 			}
 		case 25:
 			if *part == 1 {
-				advent251(*filename)
+				output = advent251(input)
 			}
+		}
+
+		for _, line := range output {
+			fmt.Println(line)
 		}
 	}
 }

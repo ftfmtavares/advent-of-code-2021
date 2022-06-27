@@ -1,15 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent161(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent161(input []string) []string {
+	output := []string{}
 	versionSum := 0
 	type packet struct {
 		Version    int
@@ -19,7 +15,6 @@ func advent161(filename string) {
 		Size       int
 		SubPackets []packet
 	}
-	packets := []packet{}
 
 	var decodePacket func(bits string, index int) (int, int, packet)
 	decodePacket = func(bits string, index int) (int, int, packet) {
@@ -94,16 +89,11 @@ func advent161(filename string) {
 			}
 		}
 
-		fmt.Println("New Packet:", sum, newIndex, newPacket)
+		output = append(output, fmt.Sprintln("New Packet:", sum, newIndex, newPacket))
 		return sum, newIndex, newPacket
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	hexStream := scanner.Text()
-	fd.Close()
+	hexStream := input[0]
 
 	bitStream := ""
 	for _, hex := range hexStream {
@@ -142,23 +132,22 @@ func advent161(filename string) {
 			bitStream = bitStream + "1111"
 		}
 	}
-	fmt.Println("BitStream is", bitStream)
+	output = append(output, fmt.Sprintln("BitStream is", bitStream))
 
 	i := 0
 	for i < len(bitStream)-4 {
-		returnSum, returnIndex, newPacket := decodePacket(bitStream, i)
+		returnSum, returnIndex, _ := decodePacket(bitStream, i)
 		versionSum = versionSum + returnSum
 		i = returnIndex
-		packets = append(packets, newPacket)
 	}
 
-	fmt.Println("Version Sum is", versionSum)
+	output = append(output, fmt.Sprintln("Version Sum is", versionSum))
+
+	return output
 }
 
-func advent162(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent162(input []string) []string {
+	output := []string{}
 	operations := map[int]string{0: "Sum", 1: "Product", 2: "Min", 3: "Max", 4: "Value", 5: ">", 6: "<", 7: "=="}
 	type packet struct {
 		Version    int
@@ -283,16 +272,11 @@ func advent162(filename string) {
 			}
 		}
 
-		fmt.Println("New Packet: ", operations[newPacket.Type], newPacket.Value)
+		output = append(output, fmt.Sprintln("New Packet: ", operations[newPacket.Type], newPacket.Value))
 		return newIndex, newPacket
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	hexStream := scanner.Text()
-	fd.Close()
+	hexStream := input[0]
 
 	bitStream := ""
 	for _, hex := range hexStream {
@@ -331,9 +315,11 @@ func advent162(filename string) {
 			bitStream = bitStream + "1111"
 		}
 	}
-	fmt.Println("BitStream is", bitStream)
+	output = append(output, fmt.Sprintln("BitStream is", bitStream))
 
 	_, newPacket := decodePacket(bitStream, 0)
 
-	fmt.Println("Result is", newPacket.Value)
+	output = append(output, fmt.Sprintln("Result is", newPacket.Value))
+
+	return output
 }

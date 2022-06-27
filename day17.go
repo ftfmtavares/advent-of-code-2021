@@ -1,31 +1,23 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent171(filename string) {
-	var fd *os.File
+func advent171(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var startX int
 	var endX int
 	var startY int
 	var endY int
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	input := scanner.Text()
-	fd.Close()
+	procInput := input[0]
 
-	input = strings.Replace(input, "target area: ", "", -1)
-	targetParts := strings.Split(input, ", ")
+	procInput = strings.Replace(procInput, "target area: ", "", -1)
+	targetParts := strings.Split(procInput, ", ")
 	targetParts[0] = strings.Replace(targetParts[0], "x=", "", -1)
 	xRange := strings.Split(targetParts[0], "..")
 	startX, err = strconv.Atoi(xRange[0])
@@ -39,7 +31,7 @@ func advent171(filename string) {
 	endY, err = strconv.Atoi(yRange[1])
 	check(err)
 
-	fmt.Println("Target Range is X:", startX, "-", endX, " Y:", startY, "-", endY)
+	output = append(output, fmt.Sprintln("Target Range is X:", startX, "-", endX, " Y:", startY, "-", endY))
 
 	highPoint := 0
 	speedY := -startY - 1
@@ -47,34 +39,30 @@ func advent171(filename string) {
 		if speedY > 0 {
 			highPoint = highPoint + speedY
 			speedY--
-			fmt.Println("Rising at", highPoint, "with speed at", speedY)
+			output = append(output, fmt.Sprintln("Rising at", highPoint, "with speed at", speedY))
 		} else {
 			break
 		}
 	}
 
-	fmt.Println("Highest Point is at", highPoint)
+	output = append(output, fmt.Sprintln("Highest Point is at", highPoint))
+
+	return output
 }
 
-func advent172(filename string) {
-	var fd *os.File
+func advent172(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var startX int
 	var endX int
 	var startY int
 	var endY int
 	shots := []string{}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	input := scanner.Text()
-	fd.Close()
+	procInput := input[0]
 
-	input = strings.Replace(input, "target area: ", "", -1)
-	targetParts := strings.Split(input, ", ")
+	procInput = strings.Replace(procInput, "target area: ", "", -1)
+	targetParts := strings.Split(procInput, ", ")
 	targetParts[0] = strings.Replace(targetParts[0], "x=", "", -1)
 	xRange := strings.Split(targetParts[0], "..")
 	startX, err = strconv.Atoi(xRange[0])
@@ -88,7 +76,7 @@ func advent172(filename string) {
 	endY, err = strconv.Atoi(yRange[1])
 	check(err)
 
-	fmt.Println("Target Range is X:", startX, "-", endX, " Y:", startY, "-", endY)
+	output = append(output, fmt.Sprintln("Target Range is X:", startX, "-", endX, " Y:", startY, "-", endY))
 
 	for speedY := startY; speedY <= absolute(startY); speedY++ {
 		currentSpeedY := speedY
@@ -119,7 +107,7 @@ func advent172(filename string) {
 						}
 						if !exists {
 							shots = append(shots, shot)
-							fmt.Println("Valid Shot ", shot)
+							output = append(output, fmt.Sprintln("Valid Shot ", shot))
 						}
 					}
 				}
@@ -127,5 +115,7 @@ func advent172(filename string) {
 		}
 	}
 
-	fmt.Println("Possible shots are", len(shots))
+	output = append(output, fmt.Sprintln("Possible shots are", len(shots)))
+
+	return output
 }

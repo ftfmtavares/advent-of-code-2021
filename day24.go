@@ -1,17 +1,14 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent241(filename string) {
-	var fd *os.File
+func advent241(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	type key struct {
 		z     int
 		index int
@@ -87,20 +84,15 @@ func advent241(filename string) {
 		return 0
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
 	operations := [][]string{}
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		if line[:3] == "inp" {
 			operations = append(operations, []string{})
 		} else {
 			operations[len(operations)-1] = append(operations[len(operations)-1], line)
 		}
 	}
-	fd.Close()
 
 	res := process(0, operations, 0)
 
@@ -109,13 +101,14 @@ func advent241(filename string) {
 	for i := len(resString) - 1; i >= 0; i-- {
 		invertedRes = invertedRes + string(resString[i])
 	}
-	fmt.Println("Solution is", invertedRes)
+	output = append(output, fmt.Sprintln("Solution is", invertedRes))
+
+	return output
 }
 
-func advent242(filename string) {
-	var fd *os.File
+func advent242(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	type key struct {
 		z     int
 		index int
@@ -191,20 +184,15 @@ func advent242(filename string) {
 		return 0
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
 	operations := [][]string{}
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		if line[:3] == "inp" {
 			operations = append(operations, []string{})
 		} else {
 			operations[len(operations)-1] = append(operations[len(operations)-1], line)
 		}
 	}
-	fd.Close()
 
 	res := process(0, operations, 0)
 
@@ -213,5 +201,7 @@ func advent242(filename string) {
 	for i := len(resString) - 1; i >= 0; i-- {
 		invertedRes = invertedRes + string(resString[i])
 	}
-	fmt.Println("Solution is", invertedRes)
+	output = append(output, fmt.Sprintln("Solution is", invertedRes))
+
+	return output
 }

@@ -1,37 +1,28 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
 )
 
-func advent071(filename string) {
-	var fd *os.File
+func advent071(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var crab int
 	var crabs []int
 	var fuel int
 	var position int
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	lineParts := strings.Split(scanner.Text(), ",")
+	lineParts := strings.Split(input[0], ",")
 	for _, s := range lineParts {
 		crab, err = strconv.Atoi(s)
 		check(err)
 		crabs = append(crabs, crab)
 	}
-	fd.Close()
 
-	fmt.Println("Number of Crabs is", len(crabs))
+	output = append(output, fmt.Sprintln("Number of Crabs is", len(crabs)))
 
 	sort.Ints(crabs)
 
@@ -40,7 +31,7 @@ func advent071(filename string) {
 	} else {
 		position = crabs[(len(crabs)-1)/2]
 	}
-	fmt.Println("Best position is", position)
+	output = append(output, fmt.Sprintln("Best position is", position))
 
 	fuel = 0
 	position = crabs[len(crabs)/2]
@@ -52,13 +43,14 @@ func advent071(filename string) {
 		}
 	}
 
-	fmt.Println("The amount of fuel needed for the best position is", fuel)
+	output = append(output, fmt.Sprintln("The amount of fuel needed for the best position is", fuel))
+
+	return output
 }
 
-func advent072(filename string) {
-	var fd *os.File
+func advent072(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var crab int
 	var crabs []int
 	var fuel int
@@ -68,20 +60,14 @@ func advent072(filename string) {
 	var max int
 	var min int
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	lineParts := strings.Split(scanner.Text(), ",")
+	lineParts := strings.Split(input[0], ",")
 	for _, s := range lineParts {
 		crab, err = strconv.Atoi(s)
 		check(err)
 		crabs = append(crabs, crab)
 	}
-	fd.Close()
 
-	fmt.Println("Number of Crabs is", len(crabs))
+	output = append(output, fmt.Sprintln("Number of Crabs is", len(crabs)))
 
 	max = crabs[0]
 	min = crabs[0]
@@ -113,6 +99,8 @@ func advent072(filename string) {
 			bestFuel = fuel
 		}
 	}
-	fmt.Println("Best position is", position)
-	fmt.Println("The amount of fuel needed for the best position is", bestFuel)
+	output = append(output, fmt.Sprintln("Best position is", position))
+	output = append(output, fmt.Sprintln("The amount of fuel needed for the best position is", bestFuel))
+
+	return output
 }

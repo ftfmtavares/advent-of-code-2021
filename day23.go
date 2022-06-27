@@ -1,16 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strings"
 )
 
-func advent231(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent231(input []string) []string {
+	output := []string{}
 	var b [15]string
 
 	getEnergy := func(energyType string) int {
@@ -310,38 +306,31 @@ func advent231(filename string) {
 		b[i] = ""
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	scanner.Scan()
-	scanner.Scan()
-	line := scanner.Text()
+	line := input[2]
 	line = strings.Replace(line, "#", "", -1)
 	b[7] = line[:1]
 	b[9] = line[1:2]
 	b[11] = line[2:3]
 	b[13] = line[3:]
-	scanner.Scan()
-	line = scanner.Text()
+
+	line = input[3]
 	line = strings.Replace(line, "#", "", -1)
 	line = strings.Replace(line, " ", "", -1)
 	b[8] = line[:1]
 	b[10] = line[1:2]
 	b[12] = line[2:3]
 	b[14] = line[3:]
-	fd.Close()
 
-	fmt.Println("Initial Positions are", b)
+	output = append(output, fmt.Sprintln("Initial Positions are", b))
 
 	leastEnergy := nextMove(b, 0)
-	fmt.Println("Best solution uses", leastEnergy, "energy")
+	output = append(output, fmt.Sprintln("Best solution uses", leastEnergy, "energy"))
+
+	return output
 }
 
-func advent232(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent232(input []string) []string {
+	output := []string{}
 	var b [23]string
 
 	getEnergy := func(energyType string) int {
@@ -661,14 +650,7 @@ func advent232(filename string) {
 		b[i] = ""
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	scanner.Scan()
-
-	scanner.Scan()
-	line := scanner.Text()
+	line := input[2]
 	line = strings.Replace(line, "#", "", -1)
 	b[7] = line[:1]
 	b[11] = line[1:2]
@@ -691,18 +673,18 @@ func advent232(filename string) {
 	b[17] = line[2:3]
 	b[21] = line[3:]
 
-	scanner.Scan()
-	line = scanner.Text()
+	line = input[3]
 	line = strings.Replace(line, "#", "", -1)
 	line = strings.Replace(line, " ", "", -1)
 	b[10] = line[:1]
 	b[14] = line[1:2]
 	b[18] = line[2:3]
 	b[22] = line[3:]
-	fd.Close()
 
-	fmt.Println("Initial Positions are", b)
+	output = append(output, fmt.Sprintln("Initial Positions are", b))
 
 	leastEnergy := nextMove(b, 0, 1)
-	fmt.Println("Best solution uses", leastEnergy, "energy")
+	output = append(output, fmt.Sprintln("Best solution uses", leastEnergy, "energy"))
+
+	return output
 }

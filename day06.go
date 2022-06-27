@@ -1,37 +1,28 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent061(filename string) {
-	var fd *os.File
+func advent061(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	const simulationDays int = 80
 	var fish int
 	var fishes []int
 	var newCount int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	line := scanner.Text()
+	line := input[0]
 	lineParts := strings.Split(line, ",")
 	for _, s := range lineParts {
 		fish, err = strconv.Atoi(s)
 		check(err)
 		fishes = append(fishes, fish)
 	}
-	fd.Close()
 
-	fmt.Println("Starting fish population is", len(fishes))
+	output = append(output, fmt.Sprintln("Starting fish population is", len(fishes)))
 
 	for i := 1; i <= simulationDays; i++ {
 		newCount = 0
@@ -42,16 +33,18 @@ func advent061(filename string) {
 				newCount++
 			}
 		}
-		fmt.Println("On day", i, ", there were", len(fishes), "fishes and", newCount, "were born")
+		output = append(output, fmt.Sprintln("On day", i, ", there were", len(fishes), "fishes and", newCount, "were born"))
 		for j := 1; j <= newCount; j++ {
 			fishes = append(fishes, 8)
 		}
 	}
 
-	fmt.Println("Final fish population is", len(fishes))
+	output = append(output, fmt.Sprintln("Final fish population is", len(fishes)))
+
+	return output
 }
 
-func advent062(filename string) {
+func advent062(input []string) []string {
 	var getNewFish func(days int, calculations []int) int
 	getNewFish = func(days int, calculations []int) int {
 		const bornCycle int = 7
@@ -76,9 +69,8 @@ func advent062(filename string) {
 		return newTotal
 	}
 
-	var fd *os.File
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	const simulationDays int = 256
 	var fish int
 	var fishes []int
@@ -86,21 +78,15 @@ func advent062(filename string) {
 	var newFishes int
 	var calculations []int
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-	scanner.Scan()
-	line := scanner.Text()
+	line := input[0]
 	lineParts := strings.Split(line, ",")
 	for _, s := range lineParts {
 		fish, err = strconv.Atoi(s)
 		check(err)
 		fishes = append(fishes, fish)
 	}
-	fd.Close()
 
-	fmt.Println("Starting fish population is", len(fishes))
+	output = append(output, fmt.Sprintln("Starting fish population is", len(fishes)))
 
 	for i := 0; i < simulationDays; i++ {
 		calculations = append(calculations, -1)
@@ -109,8 +95,10 @@ func advent062(filename string) {
 	for i := 0; i < len(fishes); i++ {
 		newFishes = getNewFish(simulationDays-fishes[i], calculations)
 		totalCount = totalCount + newFishes
-		fmt.Println("Fish", i, ", generates", newFishes, "new fishes")
+		output = append(output, fmt.Sprintln("Fish", i, ", generates", newFishes, "new fishes"))
 	}
 
-	fmt.Println("Final fish population is", totalCount)
+	output = append(output, fmt.Sprintln("Final fish population is", totalCount))
+
+	return output
 }

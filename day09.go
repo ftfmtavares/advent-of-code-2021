@@ -1,28 +1,15 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent091(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent091(input []string) []string {
+	output := []string{}
 	var riskSum int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	lines := []string{}
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	fd.Close()
+	lines = append(lines, input...)
 
 	var lowerPoint bool
 	var lowerPointLevel int
@@ -48,10 +35,12 @@ func advent091(filename string) {
 		}
 	}
 
-	fmt.Println("Sum of all risk levels is", riskSum)
+	output = append(output, fmt.Sprintln("Sum of all risk levels is", riskSum))
+
+	return output
 }
 
-func advent092(filename string) {
+func advent092(input []string) []string {
 	var getBasinSize func(lines [][]int, x int, y int) int
 	getBasinSize = func(lines [][]int, x int, y int) int {
 		res := 1
@@ -71,26 +60,17 @@ func advent092(filename string) {
 		return res
 	}
 
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var productTopBasins int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	lines := [][]int{}
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		lines = append(lines, []int{})
 		for i := 0; i < len(line); i++ {
 			lines[len(lines)-1] = append(lines[len(lines)-1], int(line[i]-'0'))
 		}
 	}
-
-	fd.Close()
 
 	lowerPoint := true
 	topBasins := [3]int{0, 0, 0}
@@ -126,5 +106,7 @@ func advent092(filename string) {
 		}
 	}
 	productTopBasins = topBasins[0] * topBasins[1] * topBasins[2]
-	fmt.Println("Multiplication of the 3 top Basins is", productTopBasins)
+	output = append(output, fmt.Sprintln("Multiplication of the 3 top Basins is", productTopBasins))
+
+	return output
 }

@@ -1,16 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strings"
 )
 
-func advent121(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent121(input []string) []string {
+	output := []string{}
 	var numberOfPaths int = 0
 
 	var exploreCave func(connections [][]string, currentPath []string) [][]string
@@ -45,14 +41,9 @@ func advent121(filename string) {
 		return res
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	connections := [][]string{}
-	for scanner.Scan() {
-		newConnection := strings.Split(scanner.Text(), "-")
+	for _, inputLine := range input {
+		newConnection := strings.Split(inputLine, "-")
 		if newConnection[0] != "start" && newConnection[1] != "start" && newConnection[0] != "end" && newConnection[1] != "end" {
 			connections = append(connections, newConnection, []string{newConnection[1], newConnection[0]})
 		} else if newConnection[1] == "start" || newConnection[0] == "end" {
@@ -61,21 +52,20 @@ func advent121(filename string) {
 			connections = append(connections, newConnection)
 		}
 	}
-	fd.Close()
 
 	paths := exploreCave(connections, []string{"start"})
 	for j := 0; j < len(paths); j++ {
-		fmt.Println("Path:", paths[j])
+		output = append(output, fmt.Sprintln("Path:", paths[j]))
 	}
 
 	numberOfPaths = len(paths)
-	fmt.Println("Number of path is", numberOfPaths)
+	output = append(output, fmt.Sprintln("Number of path is", numberOfPaths))
+
+	return output
 }
 
-func advent122(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent122(input []string) []string {
+	output := []string{}
 	var numberOfPaths int = 0
 
 	var exploreCave func(connections [][]string, currentPath []string) [][]string
@@ -119,14 +109,9 @@ func advent122(filename string) {
 		return res
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	connections := [][]string{}
-	for scanner.Scan() {
-		newConnection := strings.Split(scanner.Text(), "-")
+	for _, inputLine := range input {
+		newConnection := strings.Split(inputLine, "-")
 		if newConnection[0] != "start" && newConnection[1] != "start" && newConnection[0] != "end" && newConnection[1] != "end" {
 			connections = append(connections, newConnection, []string{newConnection[1], newConnection[0]})
 		} else if newConnection[1] == "start" || newConnection[0] == "end" {
@@ -135,13 +120,14 @@ func advent122(filename string) {
 			connections = append(connections, newConnection)
 		}
 	}
-	fd.Close()
 
 	paths := exploreCave(connections, []string{"start"})
 	for j := 0; j < len(paths); j++ {
-		fmt.Println("Path:", paths[j])
+		output = append(output, fmt.Sprintln("Path:", paths[j]))
 	}
 
 	numberOfPaths = len(paths)
-	fmt.Println("Number of path is", numberOfPaths)
+	output = append(output, fmt.Sprintln("Number of path is", numberOfPaths))
+
+	return output
 }

@@ -1,15 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent151(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent151(input []string) []string {
+	output := []string{}
 	cavernRisk := [][]int{}
 	cavernBestPath := [][]int{}
 	bestPath := -1
@@ -26,7 +22,7 @@ func advent151(filename string) {
 		if y == len(cavernRisk)-1 && x == len(cavernRisk[len(cavernRisk)-1])-1 {
 			if path < bestPath || bestPath == -1 {
 				bestPath = path
-				fmt.Println("A new best path has been found with risk Level of", bestPath)
+				output = append(output, fmt.Sprintln("A new best path has been found with risk Level of", bestPath))
 			}
 			return path
 		}
@@ -61,32 +57,27 @@ func advent151(filename string) {
 		return res
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
+	for _, inputLine := range input {
 		cavernRisk = append(cavernRisk, []int{})
 		cavernBestPath = append(cavernBestPath, []int{})
-		line := scanner.Text()
+		line := inputLine
 		for _, v := range line {
 			cavernRisk[len(cavernRisk)-1] = append(cavernRisk[len(cavernRisk)-1], int(v-'0'))
 			cavernBestPath[len(cavernBestPath)-1] = append(cavernBestPath[len(cavernBestPath)-1], -1)
 		}
 	}
-	fd.Close()
 
 	cavernBestPath[0][0] = 0
 	getBestPath(1, 0, 0)
 	getBestPath(0, 1, 0)
 
-	fmt.Println("Best Path Risk Level is", bestPath)
+	output = append(output, fmt.Sprintln("Best Path Risk Level is", bestPath))
+
+	return output
 }
 
-func advent152(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent152(input []string) []string {
+	output := []string{}
 	cavernRisk := [][]int{}
 	cavernBestPath := [][]int{}
 	bestPath := -1
@@ -103,7 +94,7 @@ func advent152(filename string) {
 		if y == len(cavernRisk)-1 && x == len(cavernRisk[len(cavernRisk)-1])-1 {
 			if path < bestPath || bestPath == -1 {
 				bestPath = path
-				fmt.Println("A new best path has been found with risk Level of", bestPath)
+				output = append(output, fmt.Sprintln("A new best path has been found with risk Level of", bestPath))
 			}
 			return path
 		}
@@ -138,20 +129,15 @@ func advent152(filename string) {
 		return res
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
+	for _, inputLine := range input {
 		cavernRisk = append(cavernRisk, []int{})
 		cavernBestPath = append(cavernBestPath, []int{})
-		line := scanner.Text()
+		line := inputLine
 		for _, v := range line {
 			cavernRisk[len(cavernRisk)-1] = append(cavernRisk[len(cavernRisk)-1], int(v-'0'))
 			cavernBestPath[len(cavernBestPath)-1] = append(cavernBestPath[len(cavernBestPath)-1], -1)
 		}
 	}
-	fd.Close()
 
 	lenY := len(cavernRisk)
 	lenX := len(cavernRisk[0])
@@ -186,5 +172,7 @@ func advent152(filename string) {
 	getBestPath(1, 0, 0)
 	getBestPath(0, 1, 0)
 
-	fmt.Println("Best Path Risk Level is", bestPath)
+	output = append(output, fmt.Sprintln("Best Path Risk Level is", bestPath))
+
+	return output
 }

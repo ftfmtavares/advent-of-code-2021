@@ -1,29 +1,21 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent131(filename string) {
-	var fd *os.File
+func advent131(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
-
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
+	output := []string{}
 	dots := [][]rune{}
 	folds := []string{}
-	for scanner.Scan() {
-		if strings.HasPrefix(scanner.Text(), "fold along ") {
-			folds = append(folds, strings.Replace(scanner.Text(), "fold along ", "", -1))
-		} else if scanner.Text() != "" {
-			newDot := strings.Split(scanner.Text(), ",")
+	for _, inputLine := range input {
+		if strings.HasPrefix(inputLine, "fold along ") {
+			folds = append(folds, strings.Replace(inputLine, "fold along ", "", -1))
+		} else if inputLine != "" {
+			newDot := strings.Split(inputLine, ",")
 			x, err := strconv.Atoi(newDot[0])
 			check(err)
 			y, err := strconv.Atoi(newDot[1])
@@ -39,13 +31,12 @@ func advent131(filename string) {
 			dots[y][x] = '#'
 		}
 	}
-	fd.Close()
 
 	for i := 0; i < len(dots); i++ {
-		fmt.Println(string(dots[i]))
+		output = append(output, fmt.Sprintln(string(dots[i])))
 	}
 
-	fmt.Println(folds[0])
+	output = append(output, fmt.Sprintln(folds[0]))
 	newFold := strings.Split(folds[0], "=")
 	pos, err := strconv.Atoi(newFold[1])
 	check(err)
@@ -57,7 +48,7 @@ func advent131(filename string) {
 				}
 			}
 		}
-		dots = append(dots[:pos])
+		dots = dots[:pos]
 	} else {
 		for j := 0; j < len(dots); j++ {
 			for k := pos + 1; k < len(dots[j]); k++ {
@@ -65,11 +56,11 @@ func advent131(filename string) {
 					dots[j][2*pos-k] = '#'
 				}
 			}
-			dots[j] = append(dots[j][:pos])
+			dots[j] = dots[j][:pos]
 		}
 	}
 	for j := 0; j < len(dots); j++ {
-		fmt.Println(string(dots[j]))
+		output = append(output, fmt.Sprintln(string(dots[j])))
 	}
 
 	visibleDots := 0
@@ -80,25 +71,20 @@ func advent131(filename string) {
 			}
 		}
 	}
-	fmt.Println("Visible dots are", visibleDots)
+	output = append(output, fmt.Sprintln("Visible dots are", visibleDots))
+
+	return output
 }
 
-func advent132(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
-
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
+func advent132(input []string) []string {
+	output := []string{}
 	dots := [][]rune{}
 	folds := []string{}
-	for scanner.Scan() {
-		if strings.HasPrefix(scanner.Text(), "fold along ") {
-			folds = append(folds, strings.Replace(scanner.Text(), "fold along ", "", -1))
-		} else if scanner.Text() != "" {
-			newDot := strings.Split(scanner.Text(), ",")
+	for _, inputLine := range input {
+		if strings.HasPrefix(inputLine, "fold along ") {
+			folds = append(folds, strings.Replace(inputLine, "fold along ", "", -1))
+		} else if inputLine != "" {
+			newDot := strings.Split(inputLine, ",")
 			x, err := strconv.Atoi(newDot[0])
 			check(err)
 			y, err := strconv.Atoi(newDot[1])
@@ -114,14 +100,13 @@ func advent132(filename string) {
 			dots[y][x] = '#'
 		}
 	}
-	fd.Close()
 
 	for i := 0; i < len(dots); i++ {
-		fmt.Println(string(dots[i]))
+		output = append(output, fmt.Sprintln(string(dots[i])))
 	}
 
 	for i := 0; i < len(folds); i++ {
-		fmt.Println(folds[i])
+		output = append(output, fmt.Sprintln(folds[i]))
 		newFold := strings.Split(folds[i], "=")
 		pos, err := strconv.Atoi(newFold[1])
 		check(err)
@@ -133,7 +118,7 @@ func advent132(filename string) {
 					}
 				}
 			}
-			dots = append(dots[:pos])
+			dots = dots[:pos]
 		} else {
 			for j := 0; j < len(dots); j++ {
 				for k := pos + 1; k < len(dots[j]); k++ {
@@ -141,11 +126,11 @@ func advent132(filename string) {
 						dots[j][2*pos-k] = '#'
 					}
 				}
-				dots[j] = append(dots[j][:pos])
+				dots[j] = dots[j][:pos]
 			}
 		}
 		for j := 0; j < len(dots); j++ {
-			fmt.Println(string(dots[j]))
+			output = append(output, fmt.Sprintln(string(dots[j])))
 		}
 	}
 
@@ -157,5 +142,7 @@ func advent132(filename string) {
 			}
 		}
 	}
-	fmt.Println("Visible dots are", visibleDots)
+	output = append(output, fmt.Sprintln("Visible dots are", visibleDots))
+
+	return output
 }

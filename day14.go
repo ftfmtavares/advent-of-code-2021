@@ -1,35 +1,26 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strings"
 )
 
-func advent141(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent141(input []string) []string {
+	output := []string{}
 	const steps = 10
-
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
 
 	polymer := ""
 	insertionPairs := [][]string{}
-	for scanner.Scan() {
-		if strings.Contains(scanner.Text(), " -> ") {
+	for _, inputLine := range input {
+		if strings.Contains(inputLine, " -> ") {
 			insertionPairs = append(insertionPairs, []string{})
-			insertionPairs[len(insertionPairs)-1] = append(insertionPairs[len(insertionPairs)-1], strings.Split(scanner.Text(), " -> ")...)
-		} else if scanner.Text() != "" {
-			polymer = scanner.Text()
+			insertionPairs[len(insertionPairs)-1] = append(insertionPairs[len(insertionPairs)-1], strings.Split(inputLine, " -> ")...)
+		} else if inputLine != "" {
+			polymer = inputLine
 		}
 	}
-	fd.Close()
 
-	fmt.Println(polymer)
+	output = append(output, fmt.Sprintln(polymer))
 	for i := 0; i < steps; i++ {
 		newPolymer := ""
 		for j := 0; j < len(polymer)-1; j++ {
@@ -43,7 +34,7 @@ func advent141(filename string) {
 		}
 		newPolymer = newPolymer + string(polymer[len(polymer)-1])
 		polymer = newPolymer
-		fmt.Println(polymer)
+		output = append(output, fmt.Sprintln(polymer))
 	}
 
 	mostCommon := ""
@@ -61,50 +52,45 @@ func advent141(filename string) {
 			leastCommonCount = indexCount
 		}
 	}
-	fmt.Println("Most Common Element is", mostCommon, "which appears", mostCommonCount, "times")
-	fmt.Println("Least Common Element is", leastCommon, "which appears", leastCommonCount, "times")
-	fmt.Println("Difference is", mostCommonCount-leastCommonCount)
+	output = append(output, fmt.Sprintln("Most Common Element is", mostCommon, "which appears", mostCommonCount, "times"))
+	output = append(output, fmt.Sprintln("Least Common Element is", leastCommon, "which appears", leastCommonCount, "times"))
+	output = append(output, fmt.Sprintln("Difference is", mostCommonCount-leastCommonCount))
+
+	return output
 }
 
-func advent142(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent142(input []string) []string {
+	output := []string{}
 	const steps = 40
 	pairsCount := map[string]int{}
 	elementsCount := map[string]int{}
 	insertionPairs := map[string]string{}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
 	polymer := ""
-	for scanner.Scan() {
-		if strings.Contains(scanner.Text(), " -> ") {
-			newPair := strings.Split(scanner.Text(), " -> ")
+	for _, inputLine := range input {
+		if strings.Contains(inputLine, " -> ") {
+			newPair := strings.Split(inputLine, " -> ")
 			insertionPairs[newPair[0]] = newPair[1]
-		} else if scanner.Text() != "" {
-			polymer = scanner.Text()
+		} else if inputLine != "" {
+			polymer = inputLine
 		}
 	}
-	fd.Close()
 
-	fmt.Println(polymer)
+	output = append(output, fmt.Sprintln(polymer))
 
 	for i := 0; i < len(polymer)-1; i++ {
 		pairsCount[polymer[i:i+2]] = pairsCount[polymer[i:i+2]] + 1
 	}
 
 	for i := 0; i < steps; i++ {
-		fmt.Println("Step", i+1)
+		output = append(output, fmt.Sprintln("Step", i+1))
 		newPairsCount := map[string]int{}
 		for pair, count := range pairsCount {
 			newPairsCount[string(pair[0])+insertionPairs[pair]] = newPairsCount[string(pair[0])+insertionPairs[pair]] + count
 			newPairsCount[insertionPairs[pair]+string(pair[1])] = newPairsCount[insertionPairs[pair]+string(pair[1])] + count
 		}
 		pairsCount = newPairsCount
-		fmt.Println(pairsCount)
+		output = append(output, fmt.Sprintln(pairsCount))
 	}
 
 	for pair, count := range pairsCount {
@@ -126,7 +112,9 @@ func advent142(filename string) {
 			leastCommonCount = ec
 		}
 	}
-	fmt.Println("Most Common Element is", mostCommon, "which appears", mostCommonCount, "times")
-	fmt.Println("Least Common Element is", leastCommon, "which appears", leastCommonCount, "times")
-	fmt.Println("Difference is", mostCommonCount-leastCommonCount)
+	output = append(output, fmt.Sprintln("Most Common Element is", mostCommon, "which appears", mostCommonCount, "times"))
+	output = append(output, fmt.Sprintln("Least Common Element is", leastCommon, "which appears", leastCommonCount, "times"))
+	output = append(output, fmt.Sprintln("Difference is", mostCommonCount-leastCommonCount))
+
+	return output
 }

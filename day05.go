@@ -1,17 +1,14 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent051(filename string) {
-	var fd *os.File
+func advent051(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	const rowCount int = 1000
 	const colCount int = 1000
 	var ventsCount [rowCount][colCount]int
@@ -25,13 +22,8 @@ func advent051(filename string) {
 		}
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		line = strings.Replace(line, " -> ", ",", -1)
 		coordinates = strings.Split(line, ",")
 		x1, err = strconv.Atoi(coordinates[0])
@@ -42,9 +34,9 @@ func advent051(filename string) {
 		check(err)
 		y2, err = strconv.Atoi(coordinates[3])
 		check(err)
-		fmt.Printf("Vent (%d,%d)->(%d,%d)", x1, y1, x2, y2)
+		output = append(output, fmt.Sprintf("Vent (%d,%d)->(%d,%d)", x1, y1, x2, y2))
 		if x1 == x2 {
-			fmt.Printf(" horizontal of %d steps\n", max(y1, y2)-min(y1, y2))
+			output = append(output, fmt.Sprintf(" horizontal of %d steps\n", max(y1, y2)-min(y1, y2)))
 			for i := min(y1, y2); i <= max(y1, y2); i++ {
 				ventsCount[x1][i]++
 				if ventsCount[x1][i] == 2 {
@@ -52,7 +44,7 @@ func advent051(filename string) {
 				}
 			}
 		} else if y1 == y2 {
-			fmt.Printf(" vertical of %d steps\n", max(x1, x2)-min(x1, x2))
+			output = append(output, fmt.Sprintf(" vertical of %d steps\n", max(x1, x2)-min(x1, x2)))
 			for i := min(x1, x2); i <= max(x1, x2); i++ {
 				ventsCount[i][y1]++
 				if ventsCount[i][y1] == 2 {
@@ -60,19 +52,18 @@ func advent051(filename string) {
 				}
 			}
 		} else {
-			fmt.Printf(" diagonal not to be considered\n")
+			output = append(output, fmt.Sprintln(" diagonal not to be considered"))
 		}
 	}
 
-	fd.Close()
+	output = append(output, fmt.Sprintln(dangerCount, "Danger Fields detected"))
 
-	fmt.Println(dangerCount, "Danger Fields detected")
+	return output
 }
 
-func advent052(filename string) {
-	var fd *os.File
+func advent052(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	const rowCount int = 1000
 	const colCount int = 1000
 	var ventsCount [rowCount][colCount]int
@@ -87,13 +78,8 @@ func advent052(filename string) {
 		}
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		line = strings.Replace(line, " -> ", ",", -1)
 		coordinates = strings.Split(line, ",")
 		x1, err = strconv.Atoi(coordinates[0])
@@ -104,13 +90,13 @@ func advent052(filename string) {
 		check(err)
 		y2, err = strconv.Atoi(coordinates[3])
 		check(err)
-		fmt.Printf("Vent (%d,%d)->(%d,%d)", x1, y1, x2, y2)
+		output = append(output, fmt.Sprintf("Vent (%d,%d)->(%d,%d)", x1, y1, x2, y2))
 		if x1 == x2 {
-			fmt.Printf(" horizontal of %d steps\n", absolute(y2-y1))
+			output = append(output, fmt.Sprintf(" horizontal of %d steps\n", absolute(y2-y1)))
 		} else if y1 == y2 {
-			fmt.Printf(" vertical of %d steps\n", absolute(x2-x1))
+			output = append(output, fmt.Sprintf(" vertical of %d steps\n", absolute(x2-x1)))
 		} else {
-			fmt.Printf(" straight diagonal of %d steps\n", absolute(y2-y1))
+			output = append(output, fmt.Sprintf(" straight diagonal of %d steps\n", absolute(y2-y1)))
 		}
 
 		if x2 == x1 {
@@ -136,7 +122,7 @@ func advent052(filename string) {
 		}
 	}
 
-	fd.Close()
+	output = append(output, fmt.Sprintln(dangerCount, "Danger Fields detected"))
 
-	fmt.Println(dangerCount, "Danger Fields detected")
+	return output
 }

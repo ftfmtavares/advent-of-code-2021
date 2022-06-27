@@ -1,22 +1,14 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent221(filename string) {
-	var fd *os.File
+func advent221(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
-
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
+	output := []string{}
 	const reactorSize = 101
 	const offset = 50
 	var reactor [reactorSize][reactorSize][reactorSize]bool
@@ -28,8 +20,8 @@ func advent221(filename string) {
 		}
 	}
 
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, inputLine := range input {
+		line := inputLine
 		lit := false
 		if line[:3] == "on " {
 			lit = true
@@ -79,7 +71,6 @@ func advent221(filename string) {
 			}
 		}
 	}
-	fd.Close()
 
 	litCount := 0
 	for x := 0; x < reactorSize; x++ {
@@ -92,18 +83,14 @@ func advent221(filename string) {
 		}
 	}
 
-	fmt.Println("There are", litCount, "On")
+	output = append(output, fmt.Sprintln("There are", litCount, "On"))
+
+	return output
 }
 
-func advent222(filename string) {
-	var fd *os.File
+func advent222(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
-
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
+	output := []string{}
 	lits := []bool{}
 	startXs := []int{}
 	endXs := []int{}
@@ -113,9 +100,9 @@ func advent222(filename string) {
 	endZs := []int{}
 	litCount := 0
 
-	for scanner.Scan() {
-		line := scanner.Text()
-		fmt.Println(line)
+	for _, inputLine := range input {
+		line := inputLine
+		output = append(output, fmt.Sprintln(line))
 
 		lit := false
 		if line[:3] == "on " {
@@ -182,13 +169,13 @@ func advent222(filename string) {
 				if lits[i] {
 					lits[i+1] = false
 					litCount = litCount - (overlapEndX-overlapStartX+1)*(overlapEndY-overlapStartY+1)*(overlapEndZ-overlapStartZ+1)
-					fmt.Println("Removing an overlap Cube of", (overlapEndX - overlapStartX + 1), "x", (overlapEndY - overlapStartY + 1), "x", (overlapEndZ - overlapStartZ + 1), "with", (overlapEndX-overlapStartX+1)*(overlapEndY-overlapStartY+1)*(overlapEndZ-overlapStartZ+1), "single cubes")
-					fmt.Println("Current count is", litCount)
+					output = append(output, fmt.Sprintln("Removing an overlap Cube of", (overlapEndX-overlapStartX+1), "x", (overlapEndY-overlapStartY+1), "x", (overlapEndZ-overlapStartZ+1), "with", (overlapEndX-overlapStartX+1)*(overlapEndY-overlapStartY+1)*(overlapEndZ-overlapStartZ+1), "single cubes"))
+					output = append(output, fmt.Sprintln("Current count is", litCount))
 				} else if !lits[i] {
 					lits[i+1] = true
 					litCount = litCount + (overlapEndX-overlapStartX+1)*(overlapEndY-overlapStartY+1)*(overlapEndZ-overlapStartZ+1)
-					fmt.Println("Adding an overlap Cube of", (overlapEndX - overlapStartX + 1), "x", (overlapEndY - overlapStartY + 1), "x", (overlapEndZ - overlapStartZ + 1), "with", (overlapEndX-overlapStartX+1)*(overlapEndY-overlapStartY+1)*(overlapEndZ-overlapStartZ+1), "single cubes")
-					fmt.Println("Current count is", litCount)
+					output = append(output, fmt.Sprintln("Adding an overlap Cube of", (overlapEndX-overlapStartX+1), "x", (overlapEndY-overlapStartY+1), "x", (overlapEndZ-overlapStartZ+1), "with", (overlapEndX-overlapStartX+1)*(overlapEndY-overlapStartY+1)*(overlapEndZ-overlapStartZ+1), "single cubes"))
+					output = append(output, fmt.Sprintln("Current count is", litCount))
 				}
 				i++
 			}
@@ -202,11 +189,12 @@ func advent222(filename string) {
 			startZs = append(startZs, startZ)
 			endZs = append(endZs, endZ)
 			litCount = litCount + (endX-startX+1)*(endY-startY+1)*(endZ-startZ+1)
-			fmt.Println("Adding a Cube of", (endX - startX + 1), "x", (endY - startY + 1), "x", (endZ - startZ + 1), "with", (endX-startX+1)*(endY-startY+1)*(endZ-startZ+1), "single cubes")
-			fmt.Println("Current count is", litCount)
+			output = append(output, fmt.Sprintln("Adding a Cube of", (endX-startX+1), "x", (endY-startY+1), "x", (endZ-startZ+1), "with", (endX-startX+1)*(endY-startY+1)*(endZ-startZ+1), "single cubes"))
+			output = append(output, fmt.Sprintln("Current count is", litCount))
 		}
 	}
-	fd.Close()
 
-	fmt.Println("There are", litCount, "On")
+	output = append(output, fmt.Sprintln("There are", litCount, "On"))
+
+	return output
 }

@@ -1,47 +1,37 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 )
 
-func advent011(filename string) {
-	var fd *os.File
+func advent011(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var prev int
 	var curr int
 	var count int = 0
 
-	fd, err = os.Open(filename)
+	prev, err = strconv.Atoi(input[0])
 	check(err)
+	output = append(output, fmt.Sprintf("First value to be compared: %d", prev))
 
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
-	prev, err = strconv.Atoi(scanner.Text())
-	check(err)
-	fmt.Printf("First value to be compared: %d\n", prev)
-
-	for scanner.Scan() {
-		curr, err = strconv.Atoi(scanner.Text())
+	for i := 1; i < len(input); i++ {
+		curr, err = strconv.Atoi(input[i])
 		check(err)
 		if curr > prev {
 			count++
 		}
-		fmt.Printf("Comparison of %d > %d is %t and Count=%d\n", curr, prev, curr > prev, count)
+		output = append(output, fmt.Sprintf("Comparison of %d > %d is %t and Count=%d", curr, prev, curr > prev, count))
 		prev = curr
 	}
 
-	fd.Close()
+	return output
 }
 
-func advent012(filename string) {
-	var fd *os.File
+func advent012(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	const slidingWindow int = 3
 	var prev int
 	var curr int
@@ -49,20 +39,14 @@ func advent012(filename string) {
 	var count int = 0
 	var readValue int
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
 	for i := 0; i < slidingWindow; i++ {
-		scanner.Scan()
-		readValue, err = strconv.Atoi(scanner.Text())
+		readValue, err = strconv.Atoi(input[i])
 		check(err)
 		windowArray[i] = readValue
 	}
 
-	for scanner.Scan() {
-		readValue, err = strconv.Atoi(scanner.Text())
+	for ind := slidingWindow; ind < len(input); ind++ {
+		readValue, err = strconv.Atoi(input[ind])
 		check(err)
 		prev = 0
 		curr = 0
@@ -77,8 +61,8 @@ func advent012(filename string) {
 		if curr > prev {
 			count++
 		}
-		fmt.Printf("Comparison of %d > %d is %t and Count=%d\n", curr, prev, curr > prev, count)
+		output = append(output, fmt.Sprintf("Comparison of %d > %d is %t and Count=%d\n", curr, prev, curr > prev, count))
 	}
 
-	fd.Close()
+	return output
 }

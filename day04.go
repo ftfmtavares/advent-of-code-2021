@@ -1,17 +1,14 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func advent041(filename string) {
-	var fd *os.File
+func advent041(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var bingoNumbers []int
 	var bingoNumber int
 	const bingoCardRowCount int = 5
@@ -22,46 +19,38 @@ func advent041(filename string) {
 	var winnerFound bool = false
 	var remainingNumbersSum int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
 	f := func(c rune) bool {
 		return c == ','
 	}
-	for _, num := range strings.FieldsFunc(scanner.Text(), f) {
+	for _, num := range strings.FieldsFunc(input[0], f) {
 		bingoNumber, err = strconv.Atoi(num)
 		check(err)
 		bingoNumbers = append(bingoNumbers, bingoNumber)
 	}
 
-	fmt.Println("Lucky numbers are", len(bingoNumbers), "long")
+	output = append(output, fmt.Sprintln("Lucky numbers are", len(bingoNumbers), "long"))
 
-	for scanner.Scan() {
-		if scanner.Text() != "" {
+	for ind := 1; ind < len(input); ind++ {
+		if input[ind] != "" {
 			bingoCard := [bingoCardColCount][bingoCardRowCount]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}
 			bingoCardsColCounter := [bingoCardRowCount]int{0, 0, 0, 0, 0}
 			bingoCardsColCounters = append(bingoCardsColCounters, bingoCardsColCounter)
 			bingoCardsRowCounter := [bingoCardColCount]int{0, 0, 0, 0, 0}
 			bingoCardsRowCounters = append(bingoCardsRowCounters, bingoCardsRowCounter)
 			for i := 0; i < bingoCardRowCount; i++ {
-				for j, num := range strings.Fields(scanner.Text()) {
+				for j, num := range strings.Fields(input[ind]) {
 					bingoCard[i][j], err = strconv.Atoi(num)
 					check(err)
 				}
-				scanner.Scan()
+				ind++
 			}
 			bingoCards = append(bingoCards, bingoCard)
-			fmt.Println("Bingo Card", len(bingoCards), "is", bingoCard)
+			output = append(output, fmt.Sprintln("Bingo Card", len(bingoCards), "is", bingoCard))
 		}
 	}
 
-	fd.Close()
-
 	for i := 0; i < len(bingoNumbers); i++ {
-		fmt.Println("Number", bingoNumbers[i], "is drawn")
+		output = append(output, fmt.Sprintln("Number", bingoNumbers[i], "is drawn"))
 		for j := 0; j < len(bingoCards); j++ {
 			for k := 0; k < bingoCardRowCount; k++ {
 				for l := 0; l < bingoCardColCount; l++ {
@@ -69,9 +58,9 @@ func advent041(filename string) {
 						bingoCardsColCounters[j][l]++
 						bingoCardsRowCounters[j][k]++
 						bingoCards[j][k][l] = -1
-						fmt.Println("Bingo Card", j, "has it! Row has now", bingoCardsRowCounters[j][k], "and Col has now", bingoCardsColCounters[j][l], "drawn numbers")
+						output = append(output, fmt.Sprintln("Bingo Card", j, "has it! Row has now", bingoCardsRowCounters[j][k], "and Col has now", bingoCardsColCounters[j][l], "drawn numbers"))
 						if (bingoCardsColCounters[j][l] == 5) || (bingoCardsRowCounters[j][l] == 5) {
-							fmt.Println("Bingo Card", j, "is the winner!", bingoCards[j])
+							output = append(output, fmt.Sprintln("Bingo Card", j, "is the winner!", bingoCards[j]))
 							winnerFound = true
 							break
 						}
@@ -89,7 +78,7 @@ func advent041(filename string) {
 						}
 					}
 				}
-				fmt.Println("Remaining Numbers Sum is", remainingNumbersSum, "and final result is", remainingNumbersSum*bingoNumbers[i])
+				output = append(output, fmt.Sprintln("Remaining Numbers Sum is", remainingNumbersSum, "and final result is", remainingNumbersSum*bingoNumbers[i]))
 				break
 			}
 		}
@@ -97,12 +86,13 @@ func advent041(filename string) {
 			break
 		}
 	}
+
+	return output
 }
 
-func advent042(filename string) {
-	var fd *os.File
+func advent042(input []string) []string {
 	var err error
-	var scanner *bufio.Scanner
+	output := []string{}
 	var bingoNumbers []int
 	var bingoNumber int
 	const bingoCardRowCount int = 5
@@ -115,35 +105,29 @@ func advent042(filename string) {
 	var remainingNumbersSum int = 0
 	var lastWinner bool = false
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
 	f := func(c rune) bool {
 		return c == ','
 	}
-	for _, num := range strings.FieldsFunc(scanner.Text(), f) {
+	for _, num := range strings.FieldsFunc(input[0], f) {
 		bingoNumber, err = strconv.Atoi(num)
 		check(err)
 		bingoNumbers = append(bingoNumbers, bingoNumber)
 	}
 
-	fmt.Println("Lucky numbers are", len(bingoNumbers), "long")
+	output = append(output, fmt.Sprintln("Lucky numbers are", len(bingoNumbers), "long"))
 
-	for scanner.Scan() {
-		if scanner.Text() != "" {
+	for ind := 1; ind < len(input); ind++ {
+		if input[ind] != "" {
 			bingoCard := [bingoCardColCount][bingoCardRowCount]int{{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}
 			for i := 0; i < bingoCardRowCount; i++ {
-				for j, num := range strings.Fields(scanner.Text()) {
+				for j, num := range strings.Fields(input[ind]) {
 					bingoCard[i][j], err = strconv.Atoi(num)
 					check(err)
 				}
-				scanner.Scan()
+				ind++
 			}
 			bingoCards = append(bingoCards, bingoCard)
-			fmt.Println("Bingo Card", len(bingoCards), "is", bingoCard)
+			output = append(output, fmt.Sprintln("Bingo Card", len(bingoCards), "is", bingoCard))
 			winners = append(winners, false)
 			bingoCardsColCounter := [bingoCardRowCount]int{0, 0, 0, 0, 0}
 			bingoCardsColCounters = append(bingoCardsColCounters, bingoCardsColCounter)
@@ -152,10 +136,8 @@ func advent042(filename string) {
 		}
 	}
 
-	fd.Close()
-
 	for i := 0; i < len(bingoNumbers); i++ {
-		fmt.Println("Number", bingoNumbers[i], "is drawn")
+		output = append(output, fmt.Sprintln("Number", bingoNumbers[i], "is drawn"))
 		for j := 0; j < len(bingoCards); j++ {
 			if winners[j] {
 				continue
@@ -166,9 +148,9 @@ func advent042(filename string) {
 						bingoCardsColCounters[j][l]++
 						bingoCardsRowCounters[j][k]++
 						bingoCards[j][k][l] = -1
-						fmt.Println("Bingo Card", j, "has it! Row has now", bingoCardsRowCounters[j][k], "and Col has now", bingoCardsColCounters[j][l], "drawn numbers")
+						output = append(output, fmt.Sprintln("Bingo Card", j, "has it! Row has now", bingoCardsRowCounters[j][k], "and Col has now", bingoCardsColCounters[j][l], "drawn numbers"))
 						if (bingoCardsColCounters[j][l] == 5) || (bingoCardsRowCounters[j][l] == 5) {
-							fmt.Println("Bingo Card", j, "won!", bingoCards[j])
+							output = append(output, fmt.Sprintln("Bingo Card", j, "won!", bingoCards[j]))
 							winners[j] = true
 							winnersCount++
 							if winnersCount == len(bingoCards) {
@@ -193,7 +175,7 @@ func advent042(filename string) {
 						}
 					}
 				}
-				fmt.Println("Remaining Numbers Sum is", remainingNumbersSum, "and final result is", remainingNumbersSum*bingoNumbers[i])
+				output = append(output, fmt.Sprintln("Remaining Numbers Sum is", remainingNumbersSum, "and final result is", remainingNumbersSum*bingoNumbers[i]))
 				break
 			}
 		}
@@ -201,4 +183,6 @@ func advent042(filename string) {
 			break
 		}
 	}
+
+	return output
 }

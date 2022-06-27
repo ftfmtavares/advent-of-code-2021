@@ -1,15 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent031(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent031(input []string) []string {
+	output := []string{}
 	const numberOfBits int = 12
 	var bitCounters [numberOfBits]int
 	var count int = 0
@@ -21,23 +17,16 @@ func advent031(filename string) {
 		bitCounters[i] = 0
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		readBinary = scanner.Text()
+	for _, inputLine := range input {
+		readBinary = inputLine
 		for i := 0; i < len(readBinary); i++ {
 			if readBinary[i] == '1' {
 				bitCounters[i]++
 			}
 		}
 		count++
-		fmt.Println("Counters are", bitCounters, "after", count, "reads")
+		output = append(output, fmt.Sprintln("Counters are", bitCounters, "after", count, "reads"))
 	}
-
-	fd.Close()
 
 	for i := 0; i < numberOfBits; i++ {
 		gamma = gamma * 2
@@ -48,14 +37,14 @@ func advent031(filename string) {
 			epsilon++
 		}
 	}
-	fmt.Println("Gamma is", gamma, "and epsilon is", epsilon, "making the power consumption equal to", gamma*epsilon)
+	output = append(output, fmt.Sprintln("Gamma is", gamma, "and epsilon is", epsilon, "making the power consumption equal to", gamma*epsilon))
+
+	return output
 }
 
-func advent032(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
-	var diagnosticValues []string
+func advent032(input []string) []string {
+	output := []string{}
+	diagnosticValues := []string{}
 	const numberOfBits int = 12
 	var mostCommonBit string
 	var leastCommonBit string
@@ -70,18 +59,9 @@ func advent032(filename string) {
 	var oxygen int = 0
 	var co2 int = 0
 
-	fd, err = os.Open(filename)
-	check(err)
+	diagnosticValues = append(diagnosticValues, input...)
 
-	scanner = bufio.NewScanner(fd)
-
-	for scanner.Scan() {
-		diagnosticValues = append(diagnosticValues, scanner.Text())
-	}
-
-	fd.Close()
-
-	fmt.Println("Diagnostic Values are", len(diagnosticValues), "long")
+	output = append(output, fmt.Sprintln("Diagnostic Values are", len(diagnosticValues), "long"))
 
 	mostCommonBit = ""
 	leastCommonBit = ""
@@ -119,8 +99,8 @@ func advent032(filename string) {
 				}
 			}
 		}
-		fmt.Println(mostCount, "values match oxygen", mostCommonBit, "pattern with", mostBitCount, "1s and", mostCount-mostBitCount, "0s")
-		fmt.Println(leastCount, "values match co2", leastCommonBit, "pattern with", leastBitCount, "1s and", leastCount-leastBitCount, "0s")
+		output = append(output, fmt.Sprintln(mostCount, "values match oxygen", mostCommonBit, "pattern with", mostBitCount, "1s and", mostCount-mostBitCount, "0s"))
+		output = append(output, fmt.Sprintln(leastCount, "values match co2", leastCommonBit, "pattern with", leastBitCount, "1s and", leastCount-leastBitCount, "0s"))
 		if mostBitCount*2 >= mostCount {
 			mostCommonBit = mostCommonBit + "1"
 		} else {
@@ -146,6 +126,8 @@ func advent032(filename string) {
 			co2++
 		}
 	}
-	fmt.Println("Found", oxygenString, "last value for Oxygen and", co2String, "last value for CO2")
-	fmt.Println("Converted values are", oxygen, "Oxygen and", co2, "CO2. Final solution is", oxygen*co2)
+	output = append(output, fmt.Sprintln("Found", oxygenString, "last value for Oxygen and", co2String, "last value for CO2"))
+	output = append(output, fmt.Sprintln("Converted values are", oxygen, "Oxygen and", co2, "CO2. Final solution is", oxygen*co2))
+
+	return output
 }

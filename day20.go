@@ -1,15 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent201(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent201(input []string) []string {
+	output := []string{}
 	const iterations = 2
 
 	getBinary := func(c byte) int {
@@ -20,20 +16,14 @@ func advent201(filename string) {
 		}
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
-	enhanceString := scanner.Text()
+	enhanceString := input[0]
 
 	image := []string{}
-	for scanner.Scan() {
-		if scanner.Text() != "" {
-			image = append(image, scanner.Text())
+	for ind := 1; ind < len(input); ind++ {
+		if input[ind] != "" {
+			image = append(image, input[ind])
 		}
 	}
-	fd.Close()
 
 	for i := range image {
 		for j := 0; j < iterations; j++ {
@@ -53,7 +43,7 @@ func advent201(filename string) {
 
 	borderPixels := "."
 	for i := 0; i < iterations; i++ {
-		fmt.Println("Iteration", i+1)
+		output = append(output, fmt.Sprintln("Iteration", i+1))
 		newImage := []string{}
 		for y := 0; y < len(image); y++ {
 			newLine := ""
@@ -112,7 +102,7 @@ func advent201(filename string) {
 				newLine = newLine + string(enhanceString[binaryNum])
 			}
 			newImage = append(newImage, newLine)
-			fmt.Println(newLine)
+			output = append(output, fmt.Sprintln(newLine))
 		}
 
 		binaryNum := 0
@@ -122,9 +112,7 @@ func advent201(filename string) {
 		}
 		borderPixels = string(enhanceString[binaryNum])
 
-		for j := 0; j < len(newImage); j++ {
-			image[j] = newImage[j]
-		}
+		copy(image, newImage)
 	}
 
 	litPixels := 0
@@ -135,13 +123,13 @@ func advent201(filename string) {
 			}
 		}
 	}
-	fmt.Println("Lit Pixels are", litPixels)
+	output = append(output, fmt.Sprintln("Lit Pixels are", litPixels))
+
+	return output
 }
 
-func advent202(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
+func advent202(input []string) []string {
+	output := []string{}
 	const iterations = 50
 
 	getBinary := func(c byte) int {
@@ -152,20 +140,14 @@ func advent202(filename string) {
 		}
 	}
 
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
-	scanner.Scan()
-	enhanceString := scanner.Text()
+	enhanceString := input[0]
 
 	image := []string{}
-	for scanner.Scan() {
-		if scanner.Text() != "" {
-			image = append(image, scanner.Text())
+	for ind := 1; ind < len(input); ind++ {
+		if input[ind] != "" {
+			image = append(image, input[ind])
 		}
 	}
-	fd.Close()
 
 	for i := range image {
 		for j := 0; j < iterations; j++ {
@@ -185,7 +167,7 @@ func advent202(filename string) {
 
 	borderPixels := "."
 	for i := 0; i < iterations; i++ {
-		fmt.Println("Iteration", i+1)
+		output = append(output, fmt.Sprintln("Iteration", i+1))
 		newImage := []string{}
 		for y := 0; y < len(image); y++ {
 			newLine := ""
@@ -244,7 +226,7 @@ func advent202(filename string) {
 				newLine = newLine + string(enhanceString[binaryNum])
 			}
 			newImage = append(newImage, newLine)
-			fmt.Println(newLine)
+			output = append(output, fmt.Sprintln(newLine))
 		}
 
 		binaryNum := 0
@@ -254,9 +236,7 @@ func advent202(filename string) {
 		}
 		borderPixels = string(enhanceString[binaryNum])
 
-		for j := 0; j < len(newImage); j++ {
-			image[j] = newImage[j]
-		}
+		copy(image, newImage)
 	}
 
 	litPixels := 0
@@ -267,5 +247,7 @@ func advent202(filename string) {
 			}
 		}
 	}
-	fmt.Println("Lit Pixels are", litPixels)
+	output = append(output, fmt.Sprintln("Lit Pixels are", litPixels))
+
+	return output
 }

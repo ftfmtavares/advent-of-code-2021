@@ -1,32 +1,22 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 )
 
-func advent251(filename string) {
-	var fd *os.File
-	var err error
-	var scanner *bufio.Scanner
-
-	fd, err = os.Open(filename)
-	check(err)
-	scanner = bufio.NewScanner(fd)
-
+func advent251(input []string) []string {
+	output := []string{}
 	seaCucumbers := [][]string{}
-	for scanner.Scan() {
+	for _, inputLine := range input {
 		seaCucumbers = append(seaCucumbers, []string{})
-		for _, c := range scanner.Text() {
+		for _, c := range inputLine {
 			seaCucumbers[len(seaCucumbers)-1] = append(seaCucumbers[len(seaCucumbers)-1], string(c))
 		}
 	}
-	fd.Close()
 
-	fmt.Println("Initial Positions")
+	output = append(output, fmt.Sprintln("Initial Positions"))
 	for _, line := range seaCucumbers {
-		fmt.Println(line)
+		output = append(output, fmt.Sprintln(line))
 	}
 
 	stop := false
@@ -68,11 +58,13 @@ func advent251(filename string) {
 			}
 		}
 		stepCount++
-		fmt.Println("After step", stepCount)
+		output = append(output, fmt.Sprintln("After step", stepCount))
 		for _, line := range seaCucumbers {
-			fmt.Println(line)
+			output = append(output, fmt.Sprintln(line))
 		}
 	}
 
-	fmt.Println("The Sea Cucumbers stopped after", stepCount, "steps")
+	output = append(output, fmt.Sprintln("The Sea Cucumbers stopped after", stepCount, "steps"))
+
+	return output
 }
